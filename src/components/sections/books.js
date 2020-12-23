@@ -6,7 +6,7 @@ import { srConfig } from '@config';
 import sr from '@utils/sr';
 import { Icon } from '@components/icons';
 
-const StyledProjectsSection = styled.section`
+const StyledBooksSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,7 +23,7 @@ const StyledProjectsSection = styled.section`
     }
   }
 
-  .projects-grid {
+  .books-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     grid-gap: 15px;
@@ -41,19 +41,19 @@ const StyledProjectsSection = styled.section`
   }
 `;
 
-const StyledProject = styled.div`
+const StyledBook = styled.div`
   cursor: default;
   transition: var(--transition);
 
   &:hover,
   &:focus {
     outline: 0;
-    .project-inner {
+    .book-inner {
       transform: translateY(-5px);
     }
   }
 
-  .project-inner {
+  .book-inner {
     ${({ theme }) => theme.mixins.boxShadow};
     ${({ theme }) => theme.mixins.flexBetween};
     flex-direction: column;
@@ -66,7 +66,7 @@ const StyledProject = styled.div`
     transition: var(--transition);
   }
 
-  .project-top {
+  .book-top {
     ${({ theme }) => theme.mixins.flexBetween};
     margin-bottom: 35px;
 
@@ -78,7 +78,7 @@ const StyledProject = styled.div`
       }
     }
 
-    .project-links {
+    .book-links {
       display: flex;
       align-items: center;
       margin-right: -10px;
@@ -104,13 +104,19 @@ const StyledProject = styled.div`
     }
   }
 
-  .project-title {
+  .book-title {
     margin: 0 0 10px;
     color: var(--lightest-slate);
     font-size: var(--fz-xxl);
   }
 
-  .project-description {
+  .book-author {
+    margin: 0 0 10px;
+    color: var(--white);
+    font-size: var(--fz-xl);
+  }
+
+  .book-description {
     color: var(--light-slate);
     font-size: 17px;
 
@@ -119,7 +125,7 @@ const StyledProject = styled.div`
     }
   }
 
-  .project-tech-list {
+  .book-tag-list {
     display: flex;
     align-items: flex-end;
     flex-grow: 1;
@@ -140,13 +146,13 @@ const StyledProject = styled.div`
   }
 `;
 
-const Projects = () => {
+const Books = () => {
   const data = useStaticQuery(graphql`
     query {
-      projects: allMarkdownRemark(
+      books: allMarkdownRemark(
         filter: {
-          fileAbsolutePath: { regex: "/projects/" }
-          frontmatter: { showInProjects: { ne: false } }
+          fileAbsolutePath: { regex: "/books/" }
+          frontmatter: { showInBooks: { ne: false } }
         }
         sort: { fields: [frontmatter___date], order: DESC }
       ) {
@@ -154,9 +160,9 @@ const Projects = () => {
           node {
             frontmatter {
               title
-              tech
-              github
+              author
               external
+              tags
             }
             html
           }
@@ -168,32 +174,32 @@ const Projects = () => {
   const [showMore, setShowMore] = useState(false);
   const revealTitle = useRef(null);
   const revealArchiveLink = useRef(null);
-  const revealProjects = useRef([]);
+  const revealBooks = useRef([]);
 
   useEffect(() => {
     sr.reveal(revealTitle.current, srConfig());
     sr.reveal(revealArchiveLink.current, srConfig());
-    revealProjects.current.forEach((ref, i) => sr.reveal(ref, srConfig(i * 100)));
+    revealBooks.current.forEach((ref, i) => sr.reveal(ref, srConfig(i * 100)));
   }, []);
 
   const GRID_LIMIT = 6;
-  const projects = data.projects.edges.filter(({ node }) => node);
-  const firstSix = projects.slice(0, GRID_LIMIT);
-  const projectsToShow = showMore ? projects : firstSix;
+  const books = data.books.edges.filter(({ node }) => node);
+  const firstSix = books.slice(0, GRID_LIMIT);
+  const booksToShow = showMore ? books : firstSix;
 
   return (
-    <StyledProjectsSection>
-      <h2 ref={revealTitle}>Other Noteworthy Projects</h2>
+    <StyledBooksSection>
+      <h2 ref={revealTitle}>Favorite Reads</h2>
 
       <Link className="inline-link archive-link" to="/archive" ref={revealArchiveLink}>
         view the archive
       </Link>
 
-      <TransitionGroup className="projects-grid">
-        {projectsToShow &&
-          projectsToShow.map(({ node }, i) => {
+      <TransitionGroup className="books-grid">
+        {booksToShow &&
+          booksToShow.map(({ node }, i) => {
             const { frontmatter, html } = node;
-            const { github, external, title, tech } = frontmatter;
+            const { title, author, external, tags } = frontmatter;
 
             return (
               <CSSTransition
@@ -201,25 +207,20 @@ const Projects = () => {
                 classNames="fadeup"
                 timeout={i >= GRID_LIMIT ? (i - GRID_LIMIT) * 300 : 300}
                 exit={false}>
-                <StyledProject
+                <StyledBook
                   key={i}
-                  ref={el => (revealProjects.current[i] = el)}
+                  ref={el => (revealBooks.current[i] = el)}
                   tabIndex="0"
                   style={{
                     transitionDelay: `${i >= GRID_LIMIT ? (i - GRID_LIMIT) * 100 : 0}ms`,
                   }}>
-                  <div className="project-inner">
+                  <div className="book-inner">
                     <header>
-                      <div className="project-top">
+                      <div className="book-top">
                         <div className="folder">
                           <Icon name="Folder" />
                         </div>
-                        <div className="project-links">
-                          {github && (
-                            <a href={github} aria-label="GitHub Link">
-                              <Icon name="GitHub" />
-                            </a>
-                          )}
+                        <div className="book-links">
                           {external && (
                             <a href={external} aria-label="External Link" className="external">
                               <Icon name="External" />
@@ -228,25 +229,26 @@ const Projects = () => {
                         </div>
                       </div>
 
-                      <h3 className="project-title">{title}</h3>
+                      <h3 className="book-title">{title}</h3>
+                      <h4 className="book-author">{author}</h4>
 
                       <div
-                        className="project-description"
+                        className="book-description"
                         dangerouslySetInnerHTML={{ __html: html }}
                       />
                     </header>
 
                     <footer>
-                      {tech && (
-                        <ul className="project-tech-list">
-                          {tech.map((tech, i) => (
-                            <li key={i}>{tech}</li>
+                      {tags && (
+                        <ul className="book-tag-list">
+                          {tags.map((tag, i) => (
+                            <li key={i}>{tag}</li>
                           ))}
                         </ul>
                       )}
                     </footer>
                   </div>
-                </StyledProject>
+                </StyledBook>
               </CSSTransition>
             );
           })}
@@ -255,8 +257,8 @@ const Projects = () => {
       <button className="more-button" onClick={() => setShowMore(!showMore)}>
         Show {showMore ? 'Less' : 'More'}
       </button>
-    </StyledProjectsSection>
+    </StyledBooksSection>
   );
 };
 
-export default Projects;
+export default Books;

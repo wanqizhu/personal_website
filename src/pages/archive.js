@@ -90,12 +90,12 @@ const StyledTableContainer = styled.div`
         line-height: 1.25;
       }
 
-      &.company {
+      &.author {
         font-size: var(--fz-lg);
         white-space: nowrap;
       }
 
-      &.tech {
+      &.tags {
         font-size: var(--fz-xxs);
         font-family: var(--font-mono);
         line-height: 1.5;
@@ -129,15 +129,15 @@ const StyledTableContainer = styled.div`
 `;
 
 const ArchivePage = ({ location, data }) => {
-  const projects = data.allMarkdownRemark.edges;
+  const books = data.allMarkdownRemark.edges;
   const revealTitle = useRef(null);
   const revealTable = useRef(null);
-  const revealProjects = useRef([]);
+  const revealBooks = useRef([]);
 
   useEffect(() => {
     sr.reveal(revealTitle.current, srConfig());
     sr.reveal(revealTable.current, srConfig(200, 0));
-    revealProjects.current.forEach((ref, i) => sr.reveal(ref, srConfig(i * 10)));
+    revealBooks.current.forEach((ref, i) => sr.reveal(ref, srConfig(i * 10)));
   }, []);
 
   return (
@@ -147,7 +147,7 @@ const ArchivePage = ({ location, data }) => {
       <main>
         <header ref={revealTitle}>
           <h1 className="big-heading">Archive</h1>
-          <p className="subtitle">A big list of things I’ve worked on</p>
+          <p className="subtitle">A big list of things I’ve liked</p>
         </header>
 
         <StyledTableContainer ref={revealTable}>
@@ -156,41 +156,30 @@ const ArchivePage = ({ location, data }) => {
               <tr>
                 <th>Year</th>
                 <th>Title</th>
-                <th className="hide-on-mobile">Made at</th>
-                <th className="hide-on-mobile">Built with</th>
+                <th className="hide-on-mobile">Author</th>
+                <th className="hide-on-mobile">Tags</th>
                 <th>Link</th>
               </tr>
             </thead>
             <tbody>
-              {projects.length > 0 &&
-                projects.map(({ node }, i) => {
-                  const {
-                    date,
-                    github,
-                    external,
-                    ios,
-                    android,
-                    title,
-                    tech,
-                    company,
-                  } = node.frontmatter;
+              {books.length > 0 &&
+                books.map(({ node }, i) => {
+                  const { date, external, title, author, tags } = node.frontmatter;
                   return (
-                    <tr key={i} ref={el => (revealProjects.current[i] = el)}>
+                    <tr key={i} ref={el => (revealBooks.current[i] = el)}>
                       <td className="overline year">{`${new Date(date).getFullYear()}`}</td>
 
                       <td className="title">{title}</td>
 
-                      <td className="company hide-on-mobile">
-                        {company ? <span>{company}</span> : <span>—</span>}
-                      </td>
+                      <td className="author">{author}</td>
 
-                      <td className="tech hide-on-mobile">
-                        {tech.length > 0 &&
-                          tech.map((item, i) => (
+                      <td className="tags hide-on-mobile">
+                        {tags.length > 0 &&
+                          tags.map((item, i) => (
                             <span key={i}>
                               {item}
                               {''}
-                              {i !== tech.length - 1 && <span className="separator">&middot;</span>}
+                              {i !== tags.length - 1 && <span className="separator">&middot;</span>}
                             </span>
                           ))}
                       </td>
@@ -200,21 +189,6 @@ const ArchivePage = ({ location, data }) => {
                           {external && (
                             <a href={external} aria-label="External Link">
                               <Icon name="External" />
-                            </a>
-                          )}
-                          {github && (
-                            <a href={github} aria-label="GitHub Link">
-                              <Icon name="GitHub" />
-                            </a>
-                          )}
-                          {ios && (
-                            <a href={ios} aria-label="Apple App Store Link">
-                              <Icon name="AppStore" />
-                            </a>
-                          )}
-                          {android && (
-                            <a href={android} aria-label="Google Play Store Link">
-                              <Icon name="PlayStore" />
                             </a>
                           )}
                         </div>
@@ -239,7 +213,7 @@ export default ArchivePage;
 export const pageQuery = graphql`
   {
     allMarkdownRemark(
-      filter: { fileAbsolutePath: { regex: "/projects/" } }
+      filter: { fileAbsolutePath: { regex: "/books/" } }
       sort: { fields: [frontmatter___date], order: DESC }
     ) {
       edges {
@@ -247,12 +221,9 @@ export const pageQuery = graphql`
           frontmatter {
             date
             title
-            tech
-            github
+            author
+            tags
             external
-            ios
-            android
-            company
           }
           html
         }
