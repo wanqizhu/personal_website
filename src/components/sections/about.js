@@ -157,7 +157,7 @@ const About = () => {
           </div>
 
           {/*
-            NOTE: need to uncomment "skills" variable above
+            NOTE: to use this, need to uncomment "skills" variable above
           <ul className="skills-list">
             {skills && skills.map((skill, i) => <li key={i}>{skill}</li>)}
           </ul>*/}
