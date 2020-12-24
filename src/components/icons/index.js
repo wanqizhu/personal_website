@@ -1,4 +1,5 @@
 export { default as IconAppStore } from './appstore';
+export { default as IconBook } from './book';
 export { default as IconCodepen } from './codepen';
 export { default as IconExternal } from './external';
 export { default as IconFacebook } from './facebook';

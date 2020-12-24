@@ -1,6 +1,5 @@
 Books
 
-- change icon
 - see if I can integrate a book image to each grid cell?
 - add more books to archive
 

@@ -74,7 +74,7 @@ const StyledBook = styled.div`
     ${({ theme }) => theme.mixins.flexBetween};
     margin-bottom: 35px;
 
-    .folder {
+    .bookicon {
       color: var(--green);
       svg {
         width: 40px;
@@ -225,8 +225,8 @@ const Books = () => {
                   <div className="book-inner">
                     <header>
                       <div className="book-top">
-                        <div className="folder">
-                          <Icon name="Folder" />
+                        <div className="bookicon">
+                          <Icon name="Book" />
                         </div>
                         <div className="book-links">
                           {external && (
