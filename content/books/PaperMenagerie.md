@@ -1,4 +1,5 @@
 ---
+date: '10'
 title: 'The Paper Menagerie and Other Stories'
 author: 'Ken Liu'
 external: ''
@@ -7,5 +8,3 @@ tags:
   - Short Stories
 showInBooks: true
 ---
-
-book test

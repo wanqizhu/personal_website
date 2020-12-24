@@ -53,7 +53,7 @@ const Hero = () => {
   const four = (
     <p>
       I'm a quantitative researcher at Jane Street in New York City. Beyond my job, I tinker with
-      random coding projects, read a lot, and listen to people's stories.
+      random coding projects, read a lot, and enjoy listening to people's stories.
     </p>
   );
   const five = (

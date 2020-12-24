@@ -29,6 +29,9 @@ const StyledBooksSection = styled.section`
     grid-gap: 15px;
     position: relative;
     margin-top: 50px;
+    width: 100%; /* I don't understand why this line is needed,
+                      but w/o it my grid collapsed into a single column.
+                      Somewhere I introduced this bug compared to the original code. */
 
     @media (max-width: 1080px) {
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));

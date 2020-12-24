@@ -1,6 +1,6 @@
 ---
 date: '2'
-title: 'Magic the Gathering Game Engine'
+title: 'Magic the Gathering'
 cover: './demo.png'
 github: 'https://github.com/wanqizhu/mtg-python-engine'
 external: 'https://github.com/wanqizhu/mtg-python-engine'
