@@ -6,3 +6,5 @@ location: 'New York City, NY'
 range: 'Sept 2021 - Present'
 url: 'https://www.janestreet.com'
 ---
+
+- Learning and working on hard projects.

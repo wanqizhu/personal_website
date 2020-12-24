@@ -52,7 +52,7 @@ const Hero = () => {
   const three = <h3 className="big-heading">I work on difficult problems and think about life.</h3>;
   const four = (
     <p>
-      I'm a quantitative researcher at Jane Street in New York City. Beyond my job, I tinker with
+      I'm a quantitative researcher at Jane Street in New York City by day. At night, I tinker with
       random coding projects, read a lot, and enjoy listening to people's stories.
     </p>
   );

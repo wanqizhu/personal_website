@@ -18,6 +18,7 @@ const StyledBooksSection = styled.section`
   .archive-link {
     font-family: var(--font-mono);
     font-size: var(--fz-sm);
+    margin-top: 20px;
     &:after {
       bottom: 0.1em;
     }
@@ -191,8 +192,12 @@ const Books = () => {
   const booksToShow = showMore ? books : firstSix;
 
   return (
-    <StyledBooksSection>
-      <h2 ref={revealTitle}>Favorite Reads</h2>
+    <StyledBooksSection id="books">
+      <h2 className="numbered-heading" ref={revealTitle}>
+        Bits and Pieces
+      </h2>
+
+      <p>A collection of books and other media that I've enjoyed lately or have inspired me.</p>
 
       <Link className="inline-link archive-link" to="/archive" ref={revealArchiveLink}>
         view the archive
