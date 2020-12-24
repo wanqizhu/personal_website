@@ -147,10 +147,10 @@ const About = () => {
             </p>
 
             <p>
-              I'm fascinated by algorithms, causal inference, designing beautiful systems, and
-              optimization. I spend much of my thinking time building up a mental model of the
-              world. I have a soft spot for photographing birds in nature, and I cherish the simple
-              complexity of the game of Go.
+              I'm fascinated by algorithms, causal inference, optimization, and designing beautiful
+              systems. I spend much of my thinking time building up a mental model of the world. I
+              have a soft spot for photographing birds in nature, and I cherish the simple
+              complexity arising out of the game of Go.
             </p>
 
             {/*<p>Here are a few technologies I've been working with recently:</p>*/}
