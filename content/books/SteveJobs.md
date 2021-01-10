@@ -1,4 +1,5 @@
 ---
+fav: 1
 date: '2016'
 title: 'Steve Jobs'
 author: 'Walter Isaacson'

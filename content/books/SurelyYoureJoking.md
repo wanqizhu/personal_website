@@ -1,4 +1,5 @@
 ---
+fav: 1
 date: '2016'
 title: "Surely You're Joking, Mr. Feynman"
 author: 'Richard Feynman'

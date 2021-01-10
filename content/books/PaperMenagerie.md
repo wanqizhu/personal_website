@@ -1,4 +1,5 @@
 ---
+fav: 1
 date: '2017'
 title: 'The Paper Menagerie and Other Stories'
 author: 'Ken Liu'

@@ -1,4 +1,5 @@
 ---
+fav: 1
 date: '2019'
 title: "The Omnivore's Dilemma"
 author: 'Michael Pollen'

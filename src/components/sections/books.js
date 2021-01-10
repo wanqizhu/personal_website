@@ -228,11 +228,12 @@ const Books = () => {
           fileAbsolutePath: { regex: "/books/" }
           frontmatter: { showInBooks: { ne: false } }
         }
-        sort: { fields: [frontmatter___date], order: DESC }
+        sort: { fields: [frontmatter___fav, frontmatter___date], order: [DESC, DESC] }
       ) {
         edges {
           node {
             frontmatter {
+              fav
               title
               author
               external

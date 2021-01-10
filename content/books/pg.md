@@ -1,4 +1,5 @@
 ---
+fav: 1
 date: '2017'
 title: 'Hackers and Painters'
 author: 'Paul Graham'

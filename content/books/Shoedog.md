@@ -1,4 +1,5 @@
 ---
+fav: 1
 date: '2020'
 title: 'Shoe Dog'
 author: 'Phil Knight'
