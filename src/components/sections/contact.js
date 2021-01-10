@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import Img from 'gatsby-image';
+import { useStaticQuery, graphql } from 'gatsby';
 import { srConfig, email } from '@config';
 import sr from '@utils/sr';
 
@@ -40,7 +42,95 @@ const StyledContactSection = styled.section`
   }
 `;
 
+const StyledPicGallery = styled.div`
+  margin-top: 70px;
+`;
+
+const StyledPic = styled.div`
+  position: relative;
+  width: 90%;
+  margin-bottom: 50px;
+
+  p {
+    text-align: right;
+    margin-top: 30px;
+  }
+
+  .wrapper {
+    ${({ theme }) => theme.mixins.boxShadow};
+    display: block;
+    position: relative;
+    width: 100%;
+    border-radius: var(--border-radius);
+    background-color: var(--green);
+
+    &:hover,
+    &:focus {
+      background: transparent;
+      outline: 0;
+
+      &:after {
+        top: 15px;
+        left: 15px;
+      }
+
+      .img {
+        filter: none;
+        mix-blend-mode: normal;
+      }
+    }
+
+    .img {
+      position: relative;
+      border-radius: var(--border-radius);
+      mix-blend-mode: multiply;
+      filter: grayscale(100%) contrast(1);
+      transition: var(--transition);
+    }
+
+    &:before,
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+    }
+
+    &:before {
+      top: 0;
+      left: 0;
+      background-color: var(--navy);
+      mix-blend-mode: screen;
+    }
+
+    &:after {
+      border: 2px solid var(--green);
+      top: 20px;
+      left: 20px;
+      z-index: -1;
+    }
+  }
+`;
+
 const Contact = () => {
+  const data = useStaticQuery(graphql`
+    query {
+      photo1: file(
+        sourceInstanceName: { eq: "images" }
+        relativePath: { eq: "photography/aurora.jpg" }
+      ) {
+        childImageSharp {
+          fluid(traceSVG: { color: "#64ffda" }) {
+            ...GatsbyImageSharpFluid_withWebp_tracedSVG
+          }
+        }
+      }
+    }
+  `);
+
   const revealContainer = useRef(null);
   useEffect(() => sr.reveal(revealContainer.current, srConfig()), []);
 
@@ -58,6 +148,15 @@ const Contact = () => {
       <a className="email-link" href={`mailto:${email}`}>
         Say Hello
       </a>
+
+      <StyledPicGallery>
+        <StyledPic
+          onClick={() => window.open('https://www.flickr.com/photos/130336331@N08', '_blank')}>
+          <div className="wrapper">
+            <Img fluid={data.photo1.childImageSharp.fluid} alt="Photo" className="img" />
+          </div>
+        </StyledPic>
+      </StyledPicGallery>
     </StyledContactSection>
   );
 };

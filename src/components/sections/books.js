@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useStaticQuery, graphql } from 'gatsby';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import Img from 'gatsby-image';
 import styled from 'styled-components';
 import { srConfig } from '@config';
 import sr from '@utils/sr';
@@ -42,6 +43,75 @@ const StyledBooksSection = styled.section`
   .more-button {
     ${({ theme }) => theme.mixins.button};
     margin: 80px auto 0;
+  }
+`;
+
+const StyledPic = styled.div`
+  position: relative;
+  width: 70%;
+  margin-bottom: 50px;
+
+  p {
+    text-align: right;
+    margin-top: 30px;
+  }
+
+  .wrapper {
+    ${({ theme }) => theme.mixins.boxShadow};
+    display: block;
+    position: relative;
+    width: 100%;
+    border-radius: var(--border-radius);
+    background-color: var(--green);
+
+    &:hover,
+    &:focus {
+      background: transparent;
+      outline: 0;
+
+      &:after {
+        top: 15px;
+        left: 15px;
+      }
+
+      .img {
+        filter: none;
+        mix-blend-mode: normal;
+      }
+    }
+
+    .img {
+      position: relative;
+      border-radius: var(--border-radius);
+      mix-blend-mode: multiply;
+      filter: grayscale(100%) contrast(1);
+      transition: var(--transition);
+    }
+
+    &:before,
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+    }
+
+    &:before {
+      top: 0;
+      left: 0;
+      background-color: var(--navy);
+      mix-blend-mode: screen;
+    }
+
+    &:after {
+      border: 2px solid var(--green);
+      top: 20px;
+      left: 20px;
+      z-index: -1;
+    }
   }
 `;
 
@@ -172,6 +242,16 @@ const Books = () => {
           }
         }
       }
+      photos: file(
+        sourceInstanceName: { eq: "images" }
+        relativePath: { eq: "photography/dream.jpg" }
+      ) {
+        childImageSharp {
+          fluid(traceSVG: { color: "#64ffda" }) {
+            ...GatsbyImageSharpFluid_withWebp_tracedSVG
+          }
+        }
+      }
     }
   `);
 
@@ -196,6 +276,13 @@ const Books = () => {
       <h2 className="numbered-heading" ref={revealTitle}>
         Bits and Pieces
       </h2>
+
+      <StyledPic
+        onClick={() => window.open('https://www.flickr.com/photos/130336331@N08', '_blank')}>
+        <div className="wrapper">
+          <Img fluid={data.photos.childImageSharp.fluid} alt="Photo" className="img" />
+        </div>
+      </StyledPic>
 
       <p>A collection of books and other media that I've enjoyed lately or have inspired me.</p>
 

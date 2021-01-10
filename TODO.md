@@ -11,4 +11,8 @@ Projects
 Overall
 
 - change favicon to profile pic maybe?
+
   - at least make it square
+
+- unify copied code, e.g. <StyledPic>
+- look into image gallery again
